@@ -870,12 +870,33 @@ function renderFavorites() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Check initial theme state on load directly to avoid flicker, but also setup the button
+    setupThemeToggle();
     renderContent();
     setupNavigation();
     setupCategoryFilters();
     setupLocationSelector();
     setupAISearch();
 });
+
+function setupThemeToggle() {
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (!toggleBtn) return;
+
+    // Apply saved theme preference
+    const savedTheme = localStorage.getItem('tarfih_theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark-theme');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark-theme');
+        localStorage.setItem('tarfih_theme', isDark ? 'dark' : 'light');
+    });
+}
+
 
 function openBookingModal(id) {
     const offer = mockData.find(v => v.id === id);
