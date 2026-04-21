@@ -48,7 +48,7 @@
             <nav class="desktop-nav">
                 <div class="nav-item active" data-target="home">Home</div>
                 <div class="nav-item" data-target="explore">Explore</div>
-                <div class="nav-item" data-target="favorites">Favorites</div>
+                <div class="nav-item" data-target="ai-search">AI Search</div>
                 <div class="nav-item" data-target="partners">Partners</div>
             </nav>
             <div class="user-profile nav-item" data-target="profile" style="cursor: pointer;">
@@ -89,7 +89,15 @@
                     <div class="category-pill" data-cat="Historical">Historical</div>
                 </div>
 
-                <div class="ai-search-wrapper">
+                <h2>Recommended for You</h2>
+                <div class="card-grid" id="recommended-grid">
+                    <!-- Cards will be injected by JS -->
+                </div>
+            </section>
+
+            <!-- AI Search Section -->
+            <section id="ai-search" class="section">
+                <div class="ai-search-wrapper" style="margin-top:0;">
                     <div class="ai-search-label">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="url(#ai-grad-label)"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -135,8 +143,7 @@
                     <div class="ai-search-summary" id="ai-search-summary" style="display:none;"></div>
                 </div>
 
-                <h2>Recommended for You</h2>
-                <div class="card-grid" id="recommended-grid">
+                <div class="card-grid" id="ai-search-grid">
                     <!-- Cards will be injected by JS -->
                 </div>
             </section>
@@ -209,12 +216,11 @@
                 </svg>
                 <div class="nav-label">Explore</div>
             </div>
-            <div class="nav-item" data-target="favorites">
+            <div class="nav-item" data-target="ai-search">
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                 </svg>
-                <div class="nav-label">Favorites</div>
+                <div class="nav-label">AI Search</div>
             </div>
             <div class="nav-item" data-target="partners">
                 <svg viewBox="0 0 24 24" fill="currentColor">

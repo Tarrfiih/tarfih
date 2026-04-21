@@ -463,9 +463,11 @@ function setupNavigation() {
                 renderFavorites();
             }
 
-            // If target is partners, render them
-            if (target === 'partners') {
-                renderPartners();
+
+
+            // If target is ai-search, render its state
+            if (target === 'ai-search') {
+                renderAISearchResults();
             }
 
             // Scroll to top
@@ -753,10 +755,7 @@ function setupAISearch() {
             chip.classList.toggle('active', chip.dataset.query === query);
         });
 
-        // Find active category pill
-        const activeCatPill = document.querySelector('.category-pill.active');
-        const activeCat = activeCatPill ? activeCatPill.getAttribute('data-cat') : 'All';
-        renderContent(activeCat);
+        renderAISearchResults();
     }
 
     // Input handler with debounce
@@ -811,22 +810,17 @@ renderContent = function (category = 'All') {
     const inProgressMessage = document.getElementById('in-progress-message');
     const homeSection = document.getElementById('home');
     const exploreSection = document.getElementById('explore');
-    const summaryEl = document.getElementById('ai-search-summary');
 
-    // Handle Location States
     let locationData = mockData;
     let cityHasData = true;
-
-    // Special Case: Sahara category is Global
     const isSaharaGlobal = category === 'Sahara';
 
     if (currentLocation !== "Locating..." && !isSaharaGlobal) {
         locationData = mockData.filter(v => v.cityText === currentLocation);
         cityHasData = locationData.length > 0;
     } else if (isSaharaGlobal) {
-        // Force all Sahara activities regardless of city
         locationData = mockData.filter(v => v.category === 'Sahara');
-        cityHasData = true; // Always has data for global Sahara
+        cityHasData = true;
     }
 
     if (!cityHasData && currentLocation !== "Locating...") {
@@ -844,38 +838,51 @@ renderContent = function (category = 'All') {
     }
 
     let filteredData = locationData;
-
-    // Category filter
     if (category !== 'All' && !isSaharaGlobal) {
         filteredData = filteredData.filter(v => v.category === category);
     }
-
-    // AI Search
-    if (aiSearchQuery.trim() !== '') {
-        const parsed = parseAIQuery(aiSearchQuery);
-        filteredData = applyAISearch(filteredData, parsed);
-
-        // Show summary
-        if (summaryEl) {
-            summaryEl.innerHTML = buildSummaryHTML(parsed, filteredData.length);
-            summaryEl.style.display = 'flex';
-        }
-    } else {
-        // No search — default alphabetic sort
-        filteredData.sort((a, b) => a.title.localeCompare(b.title));
-        if (summaryEl) summaryEl.style.display = 'none';
-    }
+    filteredData.sort((a, b) => a.title.localeCompare(b.title));
 
     if (recommendedGrid) {
         recommendedGrid.innerHTML = filteredData.map(createVenueCard).join('');
     }
-
     if (exploreGrid) {
         exploreGrid.innerHTML = mockData.map(createVenueCard).join('');
     }
-
     attachCardListeners();
 };
+
+function renderAISearchResults() {
+    const grid = document.getElementById('ai-search-grid');
+    const summaryEl = document.getElementById('ai-search-summary');
+    if (!grid) return;
+
+    if (aiSearchQuery.trim() === '') {
+        grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;grid-column:1/-1;">Type a search or click a suggestion to see results.</p>';
+        if (summaryEl) summaryEl.style.display = 'none';
+        return;
+    }
+
+    let locationData = mockData;
+    if (currentLocation !== "Locating...") {
+        locationData = mockData.filter(v => v.cityText === currentLocation || v.category === 'Sahara');
+    }
+
+    const parsed = parseAIQuery(aiSearchQuery);
+    let filteredData = applyAISearch(locationData, parsed);
+
+    if (summaryEl) {
+        summaryEl.innerHTML = buildSummaryHTML(parsed, filteredData.length);
+        summaryEl.style.display = 'flex';
+    }
+
+    if (filteredData.length === 0) {
+        grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;grid-column:1/-1;">No results found for your search.</p>';
+    } else {
+        grid.innerHTML = filteredData.map(createVenueCard).join('');
+    }
+    attachCardListeners();
+}
 
 function renderFavorites() {
     const favoritesGrid = document.getElementById('favorites-grid');
@@ -1095,3 +1102,4 @@ function applyAISearch(data, parsed) {
     }
     return results;
 }
+
