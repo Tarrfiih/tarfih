@@ -353,6 +353,27 @@ function showOfferDetails(id) {
     const offer = mockData.find(v => v.id === id);
     if (!offer) return;
 
+    let dbEntry = null;
+    if (typeof tarfihDB !== 'undefined' && tarfihDB.enterprises) {
+        dbEntry = tarfihDB.enterprises.find(e => offer.provider.includes(e.providerId));
+    }
+
+    let extendedInfoHtml = '';
+    if (dbEntry) {
+        extendedInfoHtml = `
+            <div class="offer-extended-info" style="margin-top:20px; background:var(--surface); padding:16px; border-radius:12px; font-size:14px; line-height:1.6;">
+                <h4 style="margin-bottom:12px;">Provider Credentials & Contact</h4>
+                <div><strong>Licence/Accreditation:</strong> ${dbEntry.credentials}</div>
+                <div><strong>Address:</strong> ${dbEntry.address}</div>
+                <div><strong>Phone:</strong> <a href="tel:${dbEntry.phone}" style="color:var(--primary);text-decoration:none;">${dbEntry.phone}</a></div>
+                <div><strong>Email:</strong> <a href="mailto:${dbEntry.email}" style="color:var(--primary);text-decoration:none;">${dbEntry.email}</a></div>
+                <div><strong>Website:</strong> <a href="${dbEntry.link}" target="_blank" style="color:var(--primary);text-decoration:none;">${dbEntry.link}</a></div>
+                <div style="margin-top:8px;"><strong>Location GPS:</strong> ${dbEntry.localisation.lat}, ${dbEntry.localisation.lng}</div>
+                ${dbEntry.reviewsCount ? `<div style="margin-top:8px;"><strong>Verified Reviews:</strong> ⭐️ ${offer.rating} (${dbEntry.reviewsCount} reviews)</div>` : ''}
+            </div>
+        `;
+    }
+
     const content = document.getElementById('offer-content');
     content.innerHTML = `
         <img src="${offer.image}" alt="${offer.title}" class="offer-hero">
@@ -372,8 +393,10 @@ function showOfferDetails(id) {
                 <p>Verified Partner</p>
             </div>
         </div>
+        
+        ${extendedInfoHtml}
 
-        <div class="offer-description">
+        <div class="offer-description" style="margin-top: 24px;">
             ${offer.description}
         </div>
 
@@ -438,6 +461,11 @@ function setupNavigation() {
             // If target is favorites, render them
             if (target === 'favorites') {
                 renderFavorites();
+            }
+
+            // If target is partners, render them
+            if (target === 'partners') {
+                renderPartners();
             }
 
             // Scroll to top
@@ -971,3 +999,99 @@ function handleBookingSubmit(e) {
     `;
 }
 
+
+// ===== PARTNERS PAGE =====
+function renderPartners() {
+    const grid = document.getElementById('partners-grid');
+    if (!grid) return;
+    const enterprises = (typeof tarfihDB !== 'undefined' && tarfihDB.enterprises)
+        ? tarfihDB.enterprises : [];
+    if (enterprises.length === 0) {
+        grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">No partners found.</p>';
+        return;
+    }
+    grid.innerHTML = enterprises.map(e => `
+        <div class="partner-card" onclick="window.open('${e.link}','_blank')">
+            <div class="partner-card-img">
+                <img src="${e.image}" alt="${e.name}" loading="lazy">
+                <span class="partner-badge">${e.category}</span>
+            </div>
+            <div class="partner-card-body">
+                <div class="partner-card-header">
+                    <div class="partner-avatar-sm">${e.name.charAt(0)}</div>
+                    <div>
+                        <h3 class="partner-name">${e.name}</h3>
+                        <p class="partner-city">?? ${e.city}</p>
+                    </div>
+                </div>
+                <p class="partner-desc">${e.description}</p>
+                <div class="partner-meta-grid">
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">?? Phone</span>
+                        <a href="tel:${e.phone}" class="partner-meta-value" onclick="event.stopPropagation()">${e.phone}</a>
+                    </div>
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">?? Email</span>
+                        <a href="mailto:${e.email}" class="partner-meta-value" onclick="event.stopPropagation()">${e.email}</a>
+                    </div>
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">?? Address</span>
+                        <span class="partner-meta-value">${e.address}</span>
+                    </div>
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">?? Licence</span>
+                        <span class="partner-meta-value">${e.credentials}</span>
+                    </div>
+                </div>
+                <div class="partner-footer">
+                    <div class="partner-rating">
+                        <svg width="14" height="14" fill="#f59e0b" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <strong>${e.rating}</strong>
+                        <span style="color:var(--text-muted);font-size:12px;">(${e.reviewsCount} reviews)</span>
+                    </div>
+                    <a class="partner-website-btn" href="${e.link}" target="_blank" onclick="event.stopPropagation()">Visit ?</a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== ENHANCED NLP: also searches DB enterprise fields =====
+function buildDBSearchableText(dbEntry) {
+    if (!dbEntry) return '';
+    return [
+        dbEntry.name,
+        dbEntry.city,
+        dbEntry.address,
+        dbEntry.credentials,
+        dbEntry.description,
+        dbEntry.category
+    ].join(' ').toLowerCase();
+}
+
+// Extend applyAISearch to boost/include results matching DB provider data
+const _origApplyAISearch = applyAISearch;
+function applyAISearch(data, parsed) {
+    let results = _origApplyAISearch(data, parsed);
+
+    // If we still have text tokens, try matching against DB enterprise fields
+    if (parsed.textSearch.length > 0 && typeof tarfihDB !== 'undefined') {
+        const matchedProviderIds = tarfihDB.enterprises
+            .filter(e => {
+                const txt = buildDBSearchableText(e);
+                return parsed.textSearch.some(token => txt.includes(token));
+            })
+            .map(e => e.providerId);
+
+        if (matchedProviderIds.length > 0) {
+            // Include any mockData items from those providers not already in results
+            const existingIds = new Set(results.map(r => r.id));
+            const extra = data.filter(item =>
+                matchedProviderIds.some(pid => item.provider && item.provider.includes(pid)) &&
+                !existingIds.has(item.id)
+            );
+            results = [...results, ...extra];
+        }
+    }
+    return results;
+}
