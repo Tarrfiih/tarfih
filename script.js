@@ -350,6 +350,14 @@ function renderContent(category = 'All') {
 }
 
 function showOfferDetails(id) {
+    window.location.href = `offer-details.html?id=${id}`;
+}
+
+function initOfferDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = parseInt(urlParams.get('id'));
+    if (!id) return;
+
     const offer = mockData.find(v => v.id === id);
     if (!offer) return;
 
@@ -375,42 +383,35 @@ function showOfferDetails(id) {
     }
 
     const content = document.getElementById('offer-content');
-    content.innerHTML = `
-        <img src="${offer.image}" alt="${offer.title}" class="offer-hero">
-        <div class="offer-header">
-            <h2 class="offer-title">${offer.title}</h2>
-            <div class="offer-price">${offer.price}</div>
-        </div>
-        <div class="venue-meta" style="margin-bottom: 24px; font-size: 14px;">
-            <svg width="14" height="14" fill="var(--primary)" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            <span>${offer.rating} rating</span> • <span>${offer.location}</span>
-        </div>
-
-        <div class="offer-provider-card">
-            <div class="provider-avatar">${offer.provider.charAt(0)}</div>
-            <div class="provider-info">
-                <h4>${offer.provider}</h4>
-                <p>Verified Partner</p>
+    if (content) {
+        content.innerHTML = `
+            <img src="${offer.image}" alt="${offer.title}" class="offer-hero">
+            <div class="offer-header">
+                <h2 class="offer-title">${offer.title}</h2>
+                <div class="offer-price">${offer.price}</div>
             </div>
-        </div>
-        
-        ${extendedInfoHtml}
+            <div class="venue-meta" style="margin-bottom: 24px; font-size: 14px;">
+                <svg width="14" height="14" fill="var(--primary)" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <span>${offer.rating} rating</span> • <span>${offer.location}</span>
+            </div>
 
-        <div class="offer-description" style="margin-top: 24px;">
-            ${offer.description}
-        </div>
+            <div class="offer-provider-card">
+                <div class="provider-avatar">${offer.provider.charAt(0)}</div>
+                <div class="provider-info">
+                    <h4>${offer.provider}</h4>
+                    <p>Verified Partner</p>
+                </div>
+            </div>
+            
+            ${extendedInfoHtml}
 
-        <button class="book-btn" onclick="openBookingModal(${offer.id})">Book Now</button>
-    `;
+            <div class="offer-description" style="margin-top: 24px;">
+                ${offer.description}
+            </div>
 
-    // Navigate to details section
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => section.classList.remove('active'));
-    document.getElementById('offer-details').classList.add('active');
-
-    // Clear active nav
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+            <button class="book-btn" onclick="openBookingModal(${offer.id})">Book Now</button>
+        `;
+    }
 }
 
 function attachCardListeners() {
@@ -439,52 +440,21 @@ function attachCardListeners() {
 }
 
 function setupNavigation() {
-    const navItems = document.querySelectorAll('.nav-item[data-target]');
-    const sections = document.querySelectorAll('.section');
+    const navItems = document.querySelectorAll('.nav-item');
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
     navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const target = item.getAttribute('data-target');
-
-            // Update Navigation UI
-            navItems.forEach(i => i.classList.remove('active'));
-            document.querySelectorAll(`.nav-item[data-target="${target}"]`).forEach(i => i.classList.add('active'));
-
-            // Update Section visibility
-            sections.forEach(section => {
-                section.classList.remove('active');
-                if (section.id === target) {
-                    section.classList.add('active');
-                }
-            });
-
-            // If target is favorites, render them
-            if (target === 'favorites') {
-                renderFavorites();
-            }
-
-
-
-            // If target is ai-search, render its state
-            if (target === 'ai-search') {
-                renderAISearchResults();
-            }
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        item.classList.remove('active');
+        const href = item.getAttribute('href');
+        if (href && href === currentPath) {
+            item.classList.add('active');
+        }
     });
 
     const backBtn = document.getElementById('back-button');
     if (backBtn) {
         backBtn.addEventListener('click', () => {
-            // Restore home section
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('home').classList.add('active');
-
-            // Restore Home nav active state
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            document.querySelectorAll('.nav-item[data-target="home"]').forEach(i => i.classList.add('active'));
+            window.history.back();
         });
     }
 }
@@ -748,14 +718,19 @@ function setupAISearch() {
 
     function performSearch(query) {
         aiSearchQuery = query;
-        clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+        if (clearBtn) {
+            clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+        }
 
         // Update chip active states
         document.querySelectorAll('.ai-chip').forEach(chip => {
             chip.classList.toggle('active', chip.dataset.query === query);
         });
 
-        renderAISearchResults();
+        // Find active category pill
+        const activeCatPill = document.querySelector('.category-pill.active');
+        const activeCat = activeCatPill ? activeCatPill.getAttribute('data-cat') : 'All';
+        renderContent(activeCat);
     }
 
     // Input handler with debounce
@@ -767,11 +742,13 @@ function setupAISearch() {
     });
 
     // Clear button
-    clearBtn.addEventListener('click', () => {
-        input.value = '';
-        performSearch('');
-        input.focus();
-    });
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            performSearch('');
+            input.focus();
+        });
+    }
 
     // Suggestion chips
     chipsContainer.addEventListener('click', (e) => {
@@ -795,8 +772,19 @@ function setupAISearch() {
             input.value = '';
             performSearch('');
             input.blur();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch(input.value);
+            input.blur();
         }
     });
+
+    const sendBtn = document.getElementById('ai-hero-send-btn');
+    if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+            performSearch(input.value);
+        });
+    }
 }
 
 // ===== MODIFIED renderContent to use AI search =====
@@ -807,20 +795,26 @@ const _originalRenderContent = renderContent;
 renderContent = function (category = 'All') {
     const recommendedGrid = document.getElementById('recommended-grid');
     const exploreGrid = document.getElementById('explore-grid');
+    const aiSearchGrid = document.getElementById('ai-search-grid');
     const inProgressMessage = document.getElementById('in-progress-message');
     const homeSection = document.getElementById('home');
     const exploreSection = document.getElementById('explore');
+    const summaryEl = document.getElementById('ai-search-summary');
 
+    // Handle Location States
     let locationData = mockData;
     let cityHasData = true;
+
+    // Special Case: Sahara category is Global
     const isSaharaGlobal = category === 'Sahara';
 
     if (currentLocation !== "Locating..." && !isSaharaGlobal) {
         locationData = mockData.filter(v => v.cityText === currentLocation);
         cityHasData = locationData.length > 0;
     } else if (isSaharaGlobal) {
+        // Force all Sahara activities regardless of city
         locationData = mockData.filter(v => v.category === 'Sahara');
-        cityHasData = true;
+        cityHasData = true; // Always has data for global Sahara
     }
 
     if (!cityHasData && currentLocation !== "Locating...") {
@@ -838,51 +832,42 @@ renderContent = function (category = 'All') {
     }
 
     let filteredData = locationData;
+
+    // Category filter
     if (category !== 'All' && !isSaharaGlobal) {
         filteredData = filteredData.filter(v => v.category === category);
     }
-    filteredData.sort((a, b) => a.title.localeCompare(b.title));
+
+    // AI Search
+    if (aiSearchQuery.trim() !== '') {
+        const parsed = parseAIQuery(aiSearchQuery);
+        filteredData = applyAISearch(filteredData, parsed);
+
+        // Show summary
+        if (summaryEl) {
+            summaryEl.innerHTML = buildSummaryHTML(parsed, filteredData.length);
+            summaryEl.style.display = 'flex';
+        }
+    } else {
+        // No search — default alphabetic sort
+        filteredData.sort((a, b) => a.title.localeCompare(b.title));
+        if (summaryEl) summaryEl.style.display = 'none';
+    }
 
     if (recommendedGrid) {
         recommendedGrid.innerHTML = filteredData.map(createVenueCard).join('');
     }
+
     if (exploreGrid) {
         exploreGrid.innerHTML = mockData.map(createVenueCard).join('');
     }
+
+    if (aiSearchGrid) {
+        aiSearchGrid.innerHTML = filteredData.map(createVenueCard).join('');
+    }
+
     attachCardListeners();
 };
-
-function renderAISearchResults() {
-    const grid = document.getElementById('ai-search-grid');
-    const summaryEl = document.getElementById('ai-search-summary');
-    if (!grid) return;
-
-    if (aiSearchQuery.trim() === '') {
-        grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;grid-column:1/-1;">Type a search or click a suggestion to see results.</p>';
-        if (summaryEl) summaryEl.style.display = 'none';
-        return;
-    }
-
-    let locationData = mockData;
-    if (currentLocation !== "Locating...") {
-        locationData = mockData.filter(v => v.cityText === currentLocation || v.category === 'Sahara');
-    }
-
-    const parsed = parseAIQuery(aiSearchQuery);
-    let filteredData = applyAISearch(locationData, parsed);
-
-    if (summaryEl) {
-        summaryEl.innerHTML = buildSummaryHTML(parsed, filteredData.length);
-        summaryEl.style.display = 'flex';
-    }
-
-    if (filteredData.length === 0) {
-        grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;grid-column:1/-1;">No results found for your search.</p>';
-    } else {
-        grid.innerHTML = filteredData.map(createVenueCard).join('');
-    }
-    attachCardListeners();
-}
 
 function renderFavorites() {
     const favoritesGrid = document.getElementById('favorites-grid');
@@ -907,8 +892,22 @@ function renderFavorites() {
 document.addEventListener('DOMContentLoaded', () => {
     // Check initial theme state on load directly to avoid flicker, but also setup the button
     setupThemeToggle();
-    renderContent();
     setupNavigation();
+    
+    // Page specific initialization
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    
+    if (currentPath === 'offer-details.html') {
+        initOfferDetails();
+        return; // Don't run standard grids for details page
+    }
+    
+    if (currentPath === 'favorites.html') {
+        renderFavorites();
+    } else {
+        renderContent();
+    }
+    
     setupCategoryFilters();
     setupLocationSelector();
     setupAISearch();
@@ -921,7 +920,7 @@ function setupThemeToggle() {
     // Apply saved theme preference
     const savedTheme = localStorage.getItem('tarfih_theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.documentElement.classList.add('dark-theme');
     }
@@ -1004,102 +1003,5 @@ function handleBookingSubmit(e) {
             <button class="book-btn" onclick="closeModal()">Done</button>
         </div>
     `;
-}
-
-
-// ===== PARTNERS PAGE =====
-function renderPartners() {
-    const grid = document.getElementById('partners-grid');
-    if (!grid) return;
-    const enterprises = (typeof tarfihDB !== 'undefined' && tarfihDB.enterprises)
-        ? tarfihDB.enterprises : [];
-    if (enterprises.length === 0) {
-        grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">No partners found.</p>';
-        return;
-    }
-    grid.innerHTML = enterprises.map(e => `
-        <div class="partner-card" onclick="window.open('${e.link}','_blank')">
-            <div class="partner-card-img">
-                <img src="${e.image}" alt="${e.name}" loading="lazy">
-                <span class="partner-badge">${e.category}</span>
-            </div>
-            <div class="partner-card-body">
-                <div class="partner-card-header">
-                    <div class="partner-avatar-sm">${e.name.charAt(0)}</div>
-                    <div>
-                        <h3 class="partner-name">${e.name}</h3>
-                        <p class="partner-city">?? ${e.city}</p>
-                    </div>
-                </div>
-                <p class="partner-desc">${e.description}</p>
-                <div class="partner-meta-grid">
-                    <div class="partner-meta-item">
-                        <span class="partner-meta-label">?? Phone</span>
-                        <a href="tel:${e.phone}" class="partner-meta-value" onclick="event.stopPropagation()">${e.phone}</a>
-                    </div>
-                    <div class="partner-meta-item">
-                        <span class="partner-meta-label">?? Email</span>
-                        <a href="mailto:${e.email}" class="partner-meta-value" onclick="event.stopPropagation()">${e.email}</a>
-                    </div>
-                    <div class="partner-meta-item">
-                        <span class="partner-meta-label">?? Address</span>
-                        <span class="partner-meta-value">${e.address}</span>
-                    </div>
-                    <div class="partner-meta-item">
-                        <span class="partner-meta-label">?? Licence</span>
-                        <span class="partner-meta-value">${e.credentials}</span>
-                    </div>
-                </div>
-                <div class="partner-footer">
-                    <div class="partner-rating">
-                        <svg width="14" height="14" fill="#f59e0b" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                        <strong>${e.rating}</strong>
-                        <span style="color:var(--text-muted);font-size:12px;">(${e.reviewsCount} reviews)</span>
-                    </div>
-                    <a class="partner-website-btn" href="${e.link}" target="_blank" onclick="event.stopPropagation()">Visit ?</a>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ===== ENHANCED NLP: also searches DB enterprise fields =====
-function buildDBSearchableText(dbEntry) {
-    if (!dbEntry) return '';
-    return [
-        dbEntry.name,
-        dbEntry.city,
-        dbEntry.address,
-        dbEntry.credentials,
-        dbEntry.description,
-        dbEntry.category
-    ].join(' ').toLowerCase();
-}
-
-// Extend applyAISearch to boost/include results matching DB provider data
-const _origApplyAISearch = applyAISearch;
-function applyAISearch(data, parsed) {
-    let results = _origApplyAISearch(data, parsed);
-
-    // If we still have text tokens, try matching against DB enterprise fields
-    if (parsed.textSearch.length > 0 && typeof tarfihDB !== 'undefined') {
-        const matchedProviderIds = tarfihDB.enterprises
-            .filter(e => {
-                const txt = buildDBSearchableText(e);
-                return parsed.textSearch.some(token => txt.includes(token));
-            })
-            .map(e => e.providerId);
-
-        if (matchedProviderIds.length > 0) {
-            // Include any mockData items from those providers not already in results
-            const existingIds = new Set(results.map(r => r.id));
-            const extra = data.filter(item =>
-                matchedProviderIds.some(pid => item.provider && item.provider.includes(pid)) &&
-                !existingIds.has(item.id)
-            );
-            results = [...results, ...extra];
-        }
-    }
-    return results;
 }
 

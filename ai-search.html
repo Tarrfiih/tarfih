@@ -46,9 +46,9 @@
                 </select>
             </div>
             <nav class="desktop-nav">
-                <a class="nav-item" href="index.html" class="active">Home</a>
+                <a class="nav-item" href="index.html">Home</a>
                 <a class="nav-item" href="explore.html">Explore</a>
-                <a class="nav-item" href="ai-search.html">AI Search</a>
+                <a class="nav-item" href="ai-search.html" class="active">AI Search</a>
                 <a class="nav-item" href="partners.html">Partners</a>
             </nav>
             <a class="user-profile nav-item" href="profile.html" style="cursor: pointer; display: flex; align-items: center; color: var(--text-muted); text-decoration: none;">
@@ -68,28 +68,40 @@
                     to <span id="target-city-name">this location</span> soon.</p>
             </div>
 
-<section id="home" class="section active">
-                <div class="featured-card">
-                    <img src="https://billetsalgerie.com/wp-content/uploads/2025/04/Annaba.jpg" alt="Explore Annaba"
-                        id="featured-img" style="object-position: center;">
-                    <div class="featured-content">
-                        <h2>Explore Annaba's Best</h2>
-                        <p>Enjoy isolated beaches, historical monuments, and the Seraidi mountains.</p>
+<section id="ai-search" class="section active">
+                                <div class="ai-hero-container">
+                    <div class="ai-hero-icon-circle">
+                        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                        </svg>
                     </div>
-                </div>
+                    <h1 class="ai-hero-title">Tarfih AI Assistant</h1>
+                    <p class="ai-hero-subtitle">Search intelligently in the Algerian entertainment database.<br>Ask your question in English or French.</p>
 
-                <h2>Categories</h2>
-                <div class="categories">
-                    <div class="category-pill active" data-cat="All">All</div>
-                    <div class="category-pill" data-cat="Beaches">Beaches & Sea</div>
-                    <div class="category-pill" data-cat="Hiking">Hiking & Nature</div>
-                    <div class="category-pill" data-cat="Sahara">Sahara Desert</div>
-                    <div class="category-pill" data-cat="Sport">Sport & Hobby</div>
-                    <div class="category-pill" data-cat="Historical">Historical</div>
-                </div>
+                    <div class="ai-search-chips" id="ai-search-chips">
+                        <button class="ai-chip box-chip" data-query="cheap beach fun">&#127958;&#65039; Cheap beaches</button>
+                        <button class="ai-chip box-chip" data-query="top rated hiking">&#127956;&#65039; Top rated hikes</button>
+                        <button class="ai-chip box-chip" data-query="free activities in annaba">&#127379; Free things in Annaba</button>
+                        <button class="ai-chip box-chip" data-query="desert trip under 5000">&#127964;&#65039; Budget desert trip</button>
+                        <button class="ai-chip box-chip" data-query="historical sites">&#127984; Historical sites</button>
+                        <button class="ai-chip box-chip" data-query="adrenaline sports">&#9889; Adrenaline sports</button>
+                    </div>
 
-                <h2>Recommended for You</h2>
-                <div class="card-grid" id="recommended-grid">
+                    <div class="ai-hero-search-wrapper">
+                        <svg class="ai-mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                        <input type="text" id="ai-search-input" placeholder='Ex: Find cheap technology SMEs in Oran...' autocomplete="off">
+                        <button class="ai-hero-send-btn" id="ai-hero-send-btn" aria-label="Search">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <p class="ai-hero-hint">?? Tip: specify the <strong>category</strong>, <strong>city</strong> or <strong>budget</strong> for more precise results</p>
+                    <div class="ai-search-summary" id="ai-search-summary" style="display:none;"></div>
+                </div>
+                <div class="card-grid" id="ai-search-grid">
                     <!-- Cards will be injected by JS -->
                 </div>
             </section>
