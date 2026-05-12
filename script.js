@@ -797,8 +797,10 @@ function renderPartners() {
     const partnersGrid = document.getElementById('partners-grid');
     if (!partnersGrid) return;
 
-    const partnerSource = (typeof tarfihDB !== 'undefined' && Array.isArray(tarfihDB.partners)) ? tarfihDB.partners : [];
-    if (partnerSource.length === 0) {
+    // Use enterprises (the real partner DB), not the placeholder algerianEntertainmentDB
+    const enterprises = (typeof tarfihDB !== 'undefined' && Array.isArray(tarfihDB.enterprises)) ? tarfihDB.enterprises : [];
+
+    if (enterprises.length === 0) {
         partnersGrid.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 32px 20px; color: var(--text-muted);">
                 <h3>No partners yet</h3>
@@ -808,22 +810,120 @@ function renderPartners() {
         return;
     }
 
-    partnersGrid.innerHTML = partnerSource.map((partner) => `
-        <div class="venue-card">
-            <div class="venue-info" style="padding-top: 20px;">
-                <div class="venue-title">${partner.name}</div>
-                <div class="venue-meta">
-                    <span>${partner.category}</span> • <span>${partner.location.wilaya}</span>
+    partnersGrid.innerHTML = enterprises.map((p, idx) => {
+        // Support both `images` array and legacy `image` string
+        const imgs = Array.isArray(p.images) && p.images.length > 0
+            ? p.images
+            : (p.image ? [p.image] : ['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80']);
+
+        const carouselId = `pc-${idx}`;
+        const hasMany = imgs.length > 1;
+
+        const slides = imgs.map((src, i) => `
+            <div class="pc-slide ${i === 0 ? 'active' : ''}" style="min-width:100%; flex-shrink:0;">
+                <img src="${src}" alt="${p.name}" loading="lazy">
+            </div>
+        `).join('');
+
+        const dots = hasMany ? `
+            <div class="pc-dots">
+                ${imgs.map((_, i) => `<span class="pc-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></span>`).join('')}
+            </div>` : '';
+
+        const arrows = hasMany ? `
+            <button class="pc-arrow pc-prev" aria-label="Previous">&#8249;</button>
+            <button class="pc-arrow pc-next" aria-label="Next">&#8250;</button>` : '';
+
+        return `
+        <div class="partner-card" id="${carouselId}">
+            <div class="partner-card-img">
+                <div class="pc-track" style="display:flex; width:100%; height:100%; transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);">
+                    ${slides}
                 </div>
-                <p style="margin-top: 10px; color: var(--text-muted);">${partner.description}</p>
-                <div style="margin-top: 12px; font-size: 14px; color: var(--text-muted);">
-                    <div><strong>Phone:</strong> ${partner.phone}</div>
-                    <div><strong>Email:</strong> ${partner.email}</div>
-                    <div><strong>Rating:</strong> ${partner.rating}</div>
+                ${arrows}
+                ${dots}
+                <span class="partner-badge">${p.category}</span>
+            </div>
+            <div class="partner-card-body">
+                <div class="partner-card-header">
+                    <div class="partner-avatar-sm">${p.name.charAt(0)}</div>
+                    <div>
+                        <p class="partner-name">${p.name}</p>
+                        <p class="partner-city">📍 ${p.city || p.address || ''}</p>
+                    </div>
+                </div>
+                <p class="partner-desc">${p.description}</p>
+                <div class="partner-meta-grid">
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">Phone</span>
+                        <a href="tel:${p.phone}" class="partner-meta-value">${p.phone}</a>
+                    </div>
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">Email</span>
+                        <a href="mailto:${p.email}" class="partner-meta-value">${p.email}</a>
+                    </div>
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">Credentials</span>
+                        <span class="partner-meta-value">${p.credentials || '—'}</span>
+                    </div>
+                    <div class="partner-meta-item">
+                        <span class="partner-meta-label">Address</span>
+                        <span class="partner-meta-value">${p.address || '—'}</span>
+                    </div>
+                </div>
+                <div class="partner-footer">
+                    <div class="partner-rating">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        ${p.rating}${p.reviewsCount ? ` <span style="font-weight:400;color:var(--text-muted);font-size:12px;">(${p.reviewsCount})</span>` : ''}
+                    </div>
+                    ${p.link && p.link !== '#' ? `<a href="${p.link}" target="_blank" class="partner-website-btn">Visit ↗</a>` : ''}
                 </div>
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
+
+    initPartnerCarousels();
+}
+
+function initPartnerCarousels() {
+    document.querySelectorAll('.partner-card').forEach(card => {
+        const track = card.querySelector('.pc-track');
+        if (!track) return;
+
+        const slides = track.querySelectorAll('.pc-slide');
+        const total = slides.length;
+        if (total <= 1) return;
+
+        const dots = card.querySelectorAll('.pc-dot');
+        let current = 0;
+
+        function goTo(n) {
+            current = (n + total) % total;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+
+        // Arrows
+        card.querySelector('.pc-prev')?.addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
+        card.querySelector('.pc-next')?.addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); });
+
+        // Dot clicks
+        dots.forEach(dot => dot.addEventListener('click', e => { e.stopPropagation(); goTo(+dot.dataset.idx); }));
+
+        // Touch / mouse swipe
+        let startX = 0, isDragging = false;
+        const imgArea = card.querySelector('.partner-card-img');
+
+        imgArea.addEventListener('pointerdown', e => { startX = e.clientX; isDragging = true; });
+        imgArea.addEventListener('pointermove', e => { if (!isDragging) return; });
+        imgArea.addEventListener('pointerup', e => {
+            if (!isDragging) return;
+            isDragging = false;
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > 40) goTo(diff < 0 ? current + 1 : current - 1);
+        });
+        imgArea.addEventListener('pointercancel', () => { isDragging = false; });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
