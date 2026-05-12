@@ -1,4 +1,4 @@
-const tarfihDB = {
+﻿const tarfihDB = {
   enterprises: [
     {
       providerId: "Webike",
@@ -21,7 +21,7 @@ const tarfihDB = {
       name: "Equinva",
       city: "Annaba",
       credentials: "FEA Affiliated Club",
-      address: "Route de Seraïdi, Annaba",
+      address: "Route de SeraÃ¯di, Annaba",
       link: "https://instagr.am/equinva_annaba",
       email: "info@equinva.dz",
       phone: "+213 661 98 76 54",
@@ -37,7 +37,7 @@ const tarfihDB = {
       name: "Forest Adventure",
       city: "Annaba",
       credentials: "Safety Certified EN-15567",
-      address: "Parc Edough, Seraïdi, Annaba",
+      address: "Parc Edough, SeraÃ¯di, Annaba",
       link: "https://forestadventure-dz.com",
       email: "booking@forestadventure-dz.com",
       phone: "+213 770 11 22 33",
@@ -116,8 +116,8 @@ const tarfihDB = {
       providerId: "CSA Hippone",
       name: "CSA Hippone Omnisports",
       city: "Annaba",
-      credentials: "Club Sportif Agréé",
-      address: "Belvédère, Annaba",
+      credentials: "Club Sportif AgrÃ©Ã©",
+      address: "BelvÃ©dÃ¨re, Annaba",
       link: "#",
       email: "contact@csahippone.dz",
       phone: "+213 38 00 00 01",
@@ -126,13 +126,13 @@ const tarfihDB = {
       localisation: { lat: 36.9100, lng: 7.7650 },
       images: ["imgs/hippone.jfif", "imgs/plng1.jfif"],
       category: "Sport",
-      description: "Sports nautiques, natation et plongée au cœur du Belvédère d'Annaba."
+      description: "Sports nautiques, natation et plongÃ©e au cÅ“ur du BelvÃ©dÃ¨re d'Annaba."
     },
     {
       providerId: "Forest Adventure Annaba",
       name: "Forest Adventure Annaba",
       city: "Annaba",
-      credentials: "Parc Aventure Certifié",
+      credentials: "Parc Aventure CertifiÃ©",
       address: "Parc Citadin Ain Achir, Annaba",
       link: "#",
       email: "contact@forestadventure-annaba.dz",
@@ -148,8 +148,8 @@ const tarfihDB = {
       providerId: "Horizon Discovery Annaba",
       name: "Horizon Discovery Annaba",
       city: "Annaba",
-      credentials: "Agence d'Excursions Agréée",
-      address: "Annaba – Seraïdi",
+      credentials: "Agence d'Excursions AgrÃ©Ã©e",
+      address: "Annaba â€“ SeraÃ¯di",
       link: "#",
       email: "contact@horizondiscovery.dz",
       phone: "+213 38 00 00 03",
@@ -158,14 +158,14 @@ const tarfihDB = {
       localisation: { lat: 36.9180, lng: 7.7200 },
       images: ["imgs/horizon1.jfif", "imgs/horizon2.jfif", "imgs/horizon3.jfif"],
       category: "Hiking",
-      description: "Excursions et découverte des merveilles naturelles d'Annaba et Seraïdi."
+      description: "Excursions et dÃ©couverte des merveilles naturelles d'Annaba et SeraÃ¯di."
     },
     {
       providerId: "EquiNova",
-      name: "Club D'équitation EquiNova",
+      name: "Club D'Ã©quitation EquiNova",
       city: "Annaba",
-      credentials: "Club d'Équitation Agréé FEA",
-      address: "Aïn Achir, Annaba",
+      credentials: "Club d'Ã‰quitation AgrÃ©Ã© FEA",
+      address: "AÃ¯n Achir, Annaba",
       link: "#",
       email: "contact@equinova.dz",
       phone: "+213 38 00 00 04",
@@ -174,14 +174,14 @@ const tarfihDB = {
       localisation: { lat: 36.9300, lng: 7.7480 },
       image: "https://images.unsplash.com/photo-1553649556-ea1eecfadd71?auto=format&fit=crop&w=400&q=80",
       category: "Sport",
-      description: "Club d'équitation proposant des balades et formations à Aïn Achir."
+      description: "Club d'Ã©quitation proposant des balades et formations Ã  AÃ¯n Achir."
     },
     {
       providerId: "We Bike",
       name: "We Bike",
       city: "Annaba",
-      credentials: "Service de Location Agréé",
-      address: "Seraïdi, Annaba",
+      credentials: "Service de Location AgrÃ©Ã©",
+      address: "SeraÃ¯di, Annaba",
       link: "#",
       email: "contact@webike-dz.dz",
       phone: "+213 38 00 00 05",
@@ -190,13 +190,13 @@ const tarfihDB = {
       localisation: { lat: 36.9160, lng: 7.6850 },
       image: "https://images.unsplash.com/photo-1511994298241-608e28f14fde?auto=format&fit=crop&w=400&q=80",
       category: "Sport",
-      description: "Location de vélos et sorties cyclisme dans les hauteurs de Seraïdi."
+      description: "Location de vÃ©los et sorties cyclisme dans les hauteurs de SeraÃ¯di."
     },
     {
       providerId: "She Bikes",
       name: "She Bikes",
       city: "Annaba",
-      credentials: "Association Sportive Féminine",
+      credentials: "Association Sportive FÃ©minine",
       address: "Annaba",
       link: "#",
       email: "contact@shebikes.dz",
@@ -206,14 +206,14 @@ const tarfihDB = {
       localisation: { lat: 36.9000, lng: 7.7667 },
       image: "https://images.unsplash.com/photo-1502744688674-c619d1586c9e?auto=format&fit=crop&w=400&q=80",
       category: "Sport",
-      description: "Activités vélo dédiées aux femmes à Annaba — sport, liberté et découverte."
+      description: "ActivitÃ©s vÃ©lo dÃ©diÃ©es aux femmes Ã  Annaba â€” sport, libertÃ© et dÃ©couverte."
     },
     {
       providerId: "CAPFUN SERAIDI",
       name: "CAPFUN SERAIDI",
       city: "Annaba",
-      credentials: "Centre d'Aventure Agréé",
-      address: "Seraïdi, Annaba",
+      credentials: "Centre d'Aventure AgrÃ©Ã©",
+      address: "SeraÃ¯di, Annaba",
       link: "#",
       email: "contact@capfun-seraidi.dz",
       phone: "+213 38 00 00 07",
@@ -222,7 +222,7 @@ const tarfihDB = {
       localisation: { lat: 36.9200, lng: 7.6800 },
       images: ["imgs/parapente.jfif", "imgs/quad.jfif"],
       category: "Hiking",
-      description: "Quad, parapente et aventures multiples dans les montagnes de Seraïdi."
+      description: "Quad, parapente et aventures multiples dans les montagnes de SeraÃ¯di."
     },
     {
       providerId: "Location Bateaux Annaba",
@@ -244,8 +244,8 @@ const tarfihDB = {
       providerId: "Nirvana Adventure",
       name: "Nirvana Adventure",
       city: "Annaba",
-      credentials: "Club d'Aventure Agréé",
-      address: "Annaba – Seraïdi – Edough",
+      credentials: "Club d'Aventure AgrÃ©Ã©",
+      address: "Annaba â€“ SeraÃ¯di â€“ Edough",
       link: "#",
       email: "contact@nirvana-adventure.dz",
       phone: "+213 38 00 00 09",
@@ -254,13 +254,13 @@ const tarfihDB = {
       localisation: { lat: 36.9150, lng: 7.7000 },
       image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=400&q=80",
       category: "Hiking",
-      description: "Randonnée, camping, balade en mer et kayak entre Annaba, Seraïdi et l'Edough."
+      description: "RandonnÃ©e, camping, balade en mer et kayak entre Annaba, SeraÃ¯di et l'Edough."
     },
     {
       providerId: "Kids Land Annaba",
       name: "Kids Land Annaba",
       city: "Annaba",
-      credentials: "Parc de Loisirs Agréé",
+      credentials: "Parc de Loisirs AgrÃ©Ã©",
       address: "Annaba",
       link: "#",
       email: "contact@kidsland-annaba.dz",
@@ -270,13 +270,13 @@ const tarfihDB = {
       localisation: { lat: 36.9050, lng: 7.7600 },
       image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80",
       category: "Sport",
-      description: "Quad et aire de jeux pour enfants — fun et aventure en famille à Annaba."
+      description: "Quad et aire de jeux pour enfants â€” fun et aventure en famille Ã  Annaba."
     },
     {
       providerId: "Hippone Hiking Camp",
       name: "Hippone Hiking & Camp",
       city: "Annaba",
-      credentials: "Association de Randonnée Agréée",
+      credentials: "Association de RandonnÃ©e AgrÃ©Ã©e",
       address: "Massif de l'Edough, Annaba",
       link: "#",
       email: "contact@hippone-hiking.dz",
@@ -286,14 +286,14 @@ const tarfihDB = {
       localisation: { lat: 36.9400, lng: 7.7100 },
       image: "imgs/hippone.jfif",
       category: "Hiking",
-      description: "Randonnée et camping au cœur du massif de l'Edough."
+      description: "RandonnÃ©e et camping au cÅ“ur du massif de l'Edough."
     },
     {
       providerId: "Excursions Photographiques",
       name: "Excursions Photographiques",
       city: "Annaba",
       credentials: "Agence de Tourisme Photographique",
-      address: "Seraïdi / Cap de Garde, Annaba",
+      address: "SeraÃ¯di / Cap de Garde, Annaba",
       link: "#",
       email: "contact@excursions-photo.dz",
       phone: "+213 38 00 00 12",
@@ -302,13 +302,13 @@ const tarfihDB = {
       localisation: { lat: 36.9250, lng: 7.6900 },
       image: "https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?auto=format&fit=crop&w=400&q=80",
       category: "Hiking",
-      description: "Sorties de tourisme photographique à Seraïdi et Cap de Garde."
+      description: "Sorties de tourisme photographique Ã  SeraÃ¯di et Cap de Garde."
     },
     {
       providerId: "Sorties Natation Annaba",
       name: "Sorties d'Apprentissage de la Natation",
       city: "Annaba",
-      credentials: "Moniteurs Diplômés d'État",
+      credentials: "Moniteurs DiplÃ´mÃ©s d'Ã‰tat",
       address: "Piscines et plages d'Annaba",
       link: "#",
       email: "contact@natation-annaba.dz",
@@ -318,14 +318,14 @@ const tarfihDB = {
       localisation: { lat: 36.9010, lng: 7.7640 },
       image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=400&q=80",
       category: "Sport",
-      description: "Formation et apprentissage de la natation en piscine et en plage à Annaba."
+      description: "Formation et apprentissage de la natation en piscine et en plage Ã  Annaba."
     },
     {
       providerId: "Gravity Club",
       name: "Gravity Club",
       city: "Annaba",
-      credentials: "Club d'Aventure et Tourisme Agréé",
-      address: "Seraïdi – Massif de l'Edough – Annaba",
+      credentials: "Club d'Aventure et Tourisme AgrÃ©Ã©",
+      address: "SeraÃ¯di â€“ Massif de l'Edough â€“ Annaba",
       link: "#",
       email: "contact@gravity-club.dz",
       phone: "+213 38 00 00 14",
@@ -334,7 +334,7 @@ const tarfihDB = {
       localisation: { lat: 36.9180, lng: 7.6950 },
       image: "imgs/gravity.jfif",
       category: "Hiking",
-      description: "Randonnée, camping, tourisme d'aventure et activités outdoor entre Seraïdi et l'Edough."
+      description: "RandonnÃ©e, camping, tourisme d'aventure et activitÃ©s outdoor entre SeraÃ¯di et l'Edough."
     },
     {
       providerId: "Annaba ADVENTURE",
@@ -350,7 +350,7 @@ const tarfihDB = {
       localisation: { lat: 36.9000, lng: 7.7667 },
       image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
       category: "Hiking",
-      description: "Adventure et sorties outdoor pour tous les amateurs de sensations fortes à Annaba."
+      description: "Adventure et sorties outdoor pour tous les amateurs de sensations fortes Ã  Annaba."
     }
   ]
 };
@@ -370,7 +370,7 @@ const algerianEntertainmentDB = [
     phone: "+213 561 23 45 67",
     email: "contact@douniapark.dz",
     location: {
-      address: "Route de l'Université, Bab Ezzouar",
+      address: "Route de l'UniversitÃ©, Bab Ezzouar",
       wilaya: "Algiers",
       commune: "Bab Ezzouar",
       lat: 36.7167,
@@ -389,8 +389,8 @@ const algerianEntertainmentDB = [
   },
   {
     id: "ent_002",
-    name: "Cinéma Le Colisée",
-    description: "Historic cinema in central Algiers screening international and Algerian films. Features Dolby Atmos and a retro café.",
+    name: "CinÃ©ma Le ColisÃ©e",
+    description: "Historic cinema in central Algiers screening international and Algerian films. Features Dolby Atmos and a retro cafÃ©.",
     category: "Cinema",
     tags: ["movies", "film", "art house", "blockbusters", "culture"],
     credentials: {
@@ -449,7 +449,7 @@ const algerianEntertainmentDB = [
   },
   {
     id: "ent_004",
-    name: "Théâtre National Algérien Mahieddine Bachtarzi",
+    name: "ThÃ©Ã¢tre National AlgÃ©rien Mahieddine Bachtarzi",
     description: "Prestigious national theatre hosting plays, classical music concerts, and contemporary dance. Iconic venue in Algiers.",
     category: "Theatre",
     tags: ["drama", "concerts", "ballet", "cultural", "live performance"],
@@ -599,7 +599,7 @@ const algerianEntertainmentDB = [
   },
   {
     id: "ent_009",
-    name: "Constantine Entertainment Complex – Cirta City",
+    name: "Constantine Entertainment Complex â€“ Cirta City",
     description: "Modern entertainment hub with bowling alley, karaoke rooms, billiards, and a virtual reality arcade.",
     category: "Entertainment Complex",
     tags: ["bowling", "VR", "karaoke", "nightlife", "games"],
@@ -629,7 +629,7 @@ const algerianEntertainmentDB = [
   },
   {
     id: "ent_010",
-    name: "Fantasia Tébessa – Live Shows",
+    name: "Fantasia TÃ©bessa â€“ Live Shows",
     description: "Traditional Fantasia horse riding and gunpowder shows, combined with folk music and Algerian cuisine.",
     category: "Traditional Entertainment",
     tags: ["fantasia", "culture", "horses", "folk", "outdoor show"],
@@ -642,8 +642,8 @@ const algerianEntertainmentDB = [
     email: "reservation@fantasia-tebessa.dz",
     location: {
       address: "Route de Bir El Ater, Zone Touristique",
-      wilaya: "Tébessa",
-      commune: "Tébessa",
+      wilaya: "TÃ©bessa",
+      commune: "TÃ©bessa",
       lat: 35.4050,
       lng: 8.1192
     },
