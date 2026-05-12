@@ -28,7 +28,7 @@ const tarfihDB = {
       reviewsCount: 85,
       rating: 4.9,
       localisation: { lat: 36.9142, lng: 7.7420 },
-      image: "https://images.unsplash.com/photo-1598502598522-a988d4c82b09?auto=format&fit=crop&w=400&q=80",
+      images: ["imgs/equinova1.jfif", "imgs/equinova2.jfif", "imgs/equinova3.jfif"],
       category: "Sport",
       description: "Equestrian club providing scenic horse riding treks."
     },
@@ -44,7 +44,7 @@ const tarfihDB = {
       reviewsCount: 210,
       rating: 4.7,
       localisation: { lat: 36.9200, lng: 7.7200 },
-      image: "https://images.unsplash.com/photo-1588145155609-b7b539fb99c1?auto=format&fit=crop&w=400&q=80",
+      image: "imgs/forestad.jfif",
       category: "Hiking",
       description: "High ropes courses and zip lines for all ages."
     },
@@ -124,7 +124,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9100, lng: 7.7650 },
-      image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=400&q=80",
+      images: ["imgs/hippone.jfif", "imgs/plng1.jfif"],
       category: "Sport",
       description: "Sports nautiques, natation et plongée au cœur du Belvédère d'Annaba."
     },
@@ -140,7 +140,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9350, lng: 7.7500 },
-      image: "https://images.unsplash.com/photo-1588145155609-b7b539fb99c1?auto=format&fit=crop&w=400&q=80",
+      image: "imgs/forestad.jfif",
       category: "Hiking",
       description: "Parc aventure et accrobranche au Parc Citadin Ain Achir."
     },
@@ -156,7 +156,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9180, lng: 7.7200 },
-      image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=400&q=80",
+      images: ["imgs/horizon1.jfif", "imgs/horizon2.jfif", "imgs/horizon3.jfif"],
       category: "Hiking",
       description: "Excursions et découverte des merveilles naturelles d'Annaba et Seraïdi."
     },
@@ -220,7 +220,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9200, lng: 7.6800 },
-      image: "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=400&q=80",
+      images: ["imgs/parapente.jfif", "imgs/quad.jfif"],
       category: "Hiking",
       description: "Quad, parapente et aventures multiples dans les montagnes de Seraïdi."
     },
@@ -236,7 +236,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9030, lng: 7.7710 },
-      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=400&q=80",
+      image: "imgs/locartion bateau.jfif",
       category: "Beaches",
       description: "Balades en mer et location de bateaux sur les plus belles plages d'Annaba."
     },
@@ -284,7 +284,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9400, lng: 7.7100 },
-      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&q=80",
+      image: "imgs/hippone.jfif",
       category: "Hiking",
       description: "Randonnée et camping au cœur du massif de l'Edough."
     },
@@ -332,7 +332,7 @@ const tarfihDB = {
       reviewsCount: 0,
       rating: 5.0,
       localisation: { lat: 36.9180, lng: 7.6950 },
-      image: "https://images.unsplash.com/photo-1520962922320-2038eebab146?auto=format&fit=crop&w=400&q=80",
+      image: "imgs/gravity.jfif",
       category: "Hiking",
       description: "Randonnée, camping, tourisme d'aventure et activités outdoor entre Seraïdi et l'Edough."
     },
