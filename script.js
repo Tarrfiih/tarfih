@@ -939,9 +939,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return; // Don't run standard grids for details page
     }
     
-    if (currentPath === 'favorites.html') {
+    if (currentPath === 'favorites.html' || currentPath === 'favorites') {
         renderFavorites();
-    } else if (currentPath === 'partners.html') {
+    } else if (currentPath === 'partners.html' || currentPath === 'partners') {
         renderPartners();
     } else {
         renderContent();
