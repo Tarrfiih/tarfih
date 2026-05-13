@@ -77,10 +77,10 @@ header {
 }
 
 .logo {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    color: var(--primary);
+    display: block;
+    width: auto;
+    height: 40px;
+    object-fit: contain;
 }
 
 .desktop-nav {
